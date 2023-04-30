@@ -1,0 +1,9 @@
+Mine is set up with python 3.9 , and torch 1.12.1 with cuda 11.3.
+The rest of the packages includes:
+    pandas==1.5.2
+    matplotlib==3.6.2
+    scipy==1.9.3
+    scikit-learn==1.2.0
+
+
+Can also be auto set up within your conda base environment (with command "source ..../anaconda3/bin/activate" -> prefix depending on where your anaconda directory is located) by running the script provided "create_env.sh".

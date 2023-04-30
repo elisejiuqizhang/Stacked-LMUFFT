@@ -1,0 +1,13 @@
+name: Stacked-LMUFFT
+channels:
+ - pytorch
+ - defaults
+dependencies:
+ - python=3.9 
+ - pytorch=1.12
+ - torchvision
+ - cudatoolkit=11.3
+ - pandas
+ - matplotlib
+ - scipy
+ - scikit-learn
