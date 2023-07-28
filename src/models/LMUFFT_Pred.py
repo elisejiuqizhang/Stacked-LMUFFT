@@ -9,6 +9,7 @@ class LMUFFT_Pred(nn.Module):
     """ LMU parallelized implementation using FFT"""
     def __init__(self, in_dim, out_len, hidden_size, memory_size, in_len, num_layers, theta, device, skip_connection=True):
         super(LMUFFT_Pred, self).__init__()
+        self.dain = DAIN_Layer(mode='full', input_dim=in_dim)
         self.num_layers = num_layers
         self.lmufft_layers = nn.ModuleList()
         for i in range(num_layers):
@@ -25,7 +26,7 @@ class LMUFFT_Pred(nn.Module):
 
     def forward(self, x): # [batch_size, seq_len, in_dim]
         identity = self.skip_fc(x) if self.skip_connection and self.num_layers>1 else 0 # skip connection: [batch_size, seq_len, hidden_size]
-
+        x = self.dain(x)
         if self.num_layers > 1:
             h_n_list = [] # to stack all the hidden states at all levels
             for i in range(self.num_layers):
