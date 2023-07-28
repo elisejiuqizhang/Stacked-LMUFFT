@@ -4,11 +4,13 @@ import torch.nn as nn
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ssm_modules.lmu import *
+from utils.dain import *
 
 class LMU_Pred(torch.nn.Module):
     """ Original LMU - recurrent implementation"""
     def __init__(self, in_dim, out_len, hidden_size, memory_size, num_layers, theta, device, skip_connection):
         super(LMU_Pred, self).__init__()
+        self.dain = DAIN_Layer(mode='full', input_dim=in_dim)
         self.num_layers = num_layers
         self.lmu_layers = LMU(in_dim, hidden_size, memory_size, num_layers, theta, device, skip_connection)
         self.fc = torch.nn.Linear(num_layers*hidden_size, out_len)
@@ -16,6 +18,7 @@ class LMU_Pred(torch.nn.Module):
         self.tanh = nn.Tanh()
 
     def forward(self, x): # x: [batch_size, seq_len, in_dim]
+        x=self.dain(x)
         out, _ = self.lmu_layers(x) # out: [batch_size, seq_len, num_layers*hidden_size]
         out = self.tanh(out)
         out= self.dropout(out) 
