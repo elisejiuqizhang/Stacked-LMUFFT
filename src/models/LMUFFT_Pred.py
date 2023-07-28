@@ -4,6 +4,7 @@ import torch.nn as nn
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ssm_modules.lmufft import *
+from utils.dain import *
 
 class LMUFFT_Pred(nn.Module):
     """ LMU parallelized implementation using FFT"""
